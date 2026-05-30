@@ -9,8 +9,8 @@ public abstract class ValidadorBase implements ValidadorVeiculo {
             throw new IllegalArgumentException("Todos os campos de texto sao obrigatorios.");
         }
 
-        if (!dados.placa().matches("[A-Z]{3}[0-9][A-Z0-9][0-9]{2}")) {
-            throw new IllegalArgumentException("Placa deve estar no formato ABC1D23 ou ABC1234.");
+        if (!dados.placa().matches("[A-Z]{3}[0-9][A-Z][0-9]{2}")) {
+            throw new IllegalArgumentException("Placa deve estar no formato ABC1D23.");
         }
     }
 }
