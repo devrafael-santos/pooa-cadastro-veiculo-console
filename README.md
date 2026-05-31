@@ -39,9 +39,23 @@ classDiagram
         +criarCalculadoraTaxa() CalculadoraTaxa
     }
 
-    class CarroFactory
-    class MotoFactory
-    class CaminhaoFactory
+    class CarroFactory {
+        +criarVeiculo(dados) Veiculo
+        +criarValidador() ValidadorVeiculo
+        +criarCalculadoraTaxa() CalculadoraTaxa
+    }
+
+    class MotoFactory {
+        +criarVeiculo(dados) Veiculo
+        +criarValidador() ValidadorVeiculo
+        +criarCalculadoraTaxa() CalculadoraTaxa
+    }
+
+    class CaminhaoFactory {
+        +criarVeiculo(dados) Veiculo
+        +criarValidador() ValidadorVeiculo
+        +criarCalculadoraTaxa() CalculadoraTaxa
+    }
 
     VeiculoFactory <|.. CarroFactory
     VeiculoFactory <|.. MotoFactory
@@ -49,13 +63,29 @@ classDiagram
 
     class Veiculo {
         <<abstract>>
+        -placa String
+        -proprietario String
+        -marca String
+        -modelo String
+        -ano int
         +getTipo() String
         +resumo() String
     }
 
-    class Carro
-    class Moto
-    class Caminhao
+    class Carro {
+        +Carro(placa, proprietario, marca, modelo, ano)
+        +getTipo() String
+    }
+
+    class Moto {
+        +Moto(placa, proprietario, marca, modelo, ano)
+        +getTipo() String
+    }
+
+    class Caminhao {
+        +Caminhao(placa, proprietario, marca, modelo, ano)
+        +getTipo() String
+    }
 
     Veiculo <|-- Carro
     Veiculo <|-- Moto
@@ -66,9 +96,17 @@ classDiagram
         +validar(dados) void
     }
 
-    class ValidadorCarro
-    class ValidadorMoto
-    class ValidadorCaminhao
+    class ValidadorCarro {
+        +validar(dados) void
+    }
+
+    class ValidadorMoto {
+        +validar(dados) void
+    }
+
+    class ValidadorCaminhao {
+        +validar(dados) void
+    }
 
     ValidadorVeiculo <|.. ValidadorCarro
     ValidadorVeiculo <|.. ValidadorMoto
@@ -79,9 +117,17 @@ classDiagram
         +calcular(veiculo) BigDecimal
     }
 
-    class CalculadoraTaxaCarro
-    class CalculadoraTaxaMoto
-    class CalculadoraTaxaCaminhao
+    class CalculadoraTaxaCarro {
+        +calcular(veiculo) BigDecimal
+    }
+
+    class CalculadoraTaxaMoto {
+        +calcular(veiculo) BigDecimal
+    }
+
+    class CalculadoraTaxaCaminhao {
+        +calcular(veiculo) BigDecimal
+    }
 
     CalculadoraTaxa <|.. CalculadoraTaxaCarro
     CalculadoraTaxa <|.. CalculadoraTaxaMoto
