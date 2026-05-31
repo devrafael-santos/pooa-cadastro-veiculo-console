@@ -1,16 +1,12 @@
 package com.ucsal.cadastroveiculo.service;
 
 import com.ucsal.cadastroveiculo.domain.DadosCadastroVeiculo;
+import com.ucsal.cadastroveiculo.validation.ValidadorAnotacoes;
 
 public abstract class ValidadorBase implements ValidadorVeiculo {
-    protected void validarCamposObrigatorios(DadosCadastroVeiculo dados) {
-        if (dados.placa().isBlank() || dados.proprietario().isBlank()
-                || dados.marca().isBlank() || dados.modelo().isBlank()) {
-            throw new IllegalArgumentException("Todos os campos de texto sao obrigatorios.");
-        }
+    private final ValidadorAnotacoes validadorAnotacoes = new ValidadorAnotacoes();
 
-        if (!dados.placa().matches("[A-Z]{3}[0-9][A-Z][0-9]{2}")) {
-            throw new IllegalArgumentException("Placa deve estar no formato ABC1D23.");
-        }
+    protected void validarCamposAnotados(DadosCadastroVeiculo dados) {
+        validadorAnotacoes.validar(dados);
     }
 }

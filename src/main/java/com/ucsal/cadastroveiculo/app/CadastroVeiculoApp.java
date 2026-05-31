@@ -1,19 +1,10 @@
 package com.ucsal.cadastroveiculo.app;
 
-import com.ucsal.cadastroveiculo.domain.Caminhao;
-import com.ucsal.cadastroveiculo.domain.Carro;
 import com.ucsal.cadastroveiculo.domain.DadosCadastroVeiculo;
-import com.ucsal.cadastroveiculo.domain.Moto;
 import com.ucsal.cadastroveiculo.domain.Veiculo;
+import com.ucsal.cadastroveiculo.factory.VeiculoFactory;
+import com.ucsal.cadastroveiculo.factory.VeiculoFactorySelector;
 import com.ucsal.cadastroveiculo.repository.VeiculoRepository;
-import com.ucsal.cadastroveiculo.service.CalculadoraTaxa;
-import com.ucsal.cadastroveiculo.service.CalculadoraTaxaCaminhao;
-import com.ucsal.cadastroveiculo.service.CalculadoraTaxaCarro;
-import com.ucsal.cadastroveiculo.service.CalculadoraTaxaMoto;
-import com.ucsal.cadastroveiculo.service.ValidadorCaminhao;
-import com.ucsal.cadastroveiculo.service.ValidadorCarro;
-import com.ucsal.cadastroveiculo.service.ValidadorMoto;
-import com.ucsal.cadastroveiculo.service.ValidadorVeiculo;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
@@ -21,6 +12,7 @@ import java.util.Scanner;
 public class CadastroVeiculoApp {
     private final Scanner scanner = new Scanner(System.in);
     private final VeiculoRepository repository = new VeiculoRepository();
+    private final VeiculoFactorySelector factorySelector = new VeiculoFactorySelector();
 
     public void executar() {
         int opcao;
@@ -67,12 +59,11 @@ public class CadastroVeiculoApp {
                 return;
             }
 
-            ValidadorVeiculo validador = criarValidador(tipo);
-            validador.validar(dados);
+            VeiculoFactory factory = factorySelector.buscarPorTipo(tipo);
+            factory.criarValidador().validar(dados);
 
-            Veiculo veiculo = criarVeiculo(tipo, dados);
-            CalculadoraTaxa calculadoraTaxa = criarCalculadoraTaxa(tipo);
-            BigDecimal taxa = calculadoraTaxa.calcular(veiculo);
+            Veiculo veiculo = factory.criarVeiculo(dados);
+            BigDecimal taxa = factory.criarCalculadoraTaxa().calcular(veiculo);
             repository.salvar(veiculo);
 
             System.out.println("Veiculo cadastrado com sucesso.");
@@ -107,54 +98,6 @@ public class CadastroVeiculoApp {
     private String lerTexto(String mensagem) {
         System.out.print(mensagem);
         return scanner.nextLine().trim();
-    }
-
-    private Veiculo criarVeiculo(String tipo, DadosCadastroVeiculo dados) {
-        if (tipo.equalsIgnoreCase("carro")) {
-            return new Carro(dados.placa(), dados.proprietario(), dados.marca(), dados.modelo(), dados.ano());
-        }
-
-        if (tipo.equalsIgnoreCase("moto")) {
-            return new Moto(dados.placa(), dados.proprietario(), dados.marca(), dados.modelo(), dados.ano());
-        }
-
-        if (tipo.equalsIgnoreCase("caminhao")) {
-            return new Caminhao(dados.placa(), dados.proprietario(), dados.marca(), dados.modelo(), dados.ano());
-        }
-
-        throw new IllegalArgumentException("Tipo de veiculo nao suportado: " + tipo);
-    }
-
-    private ValidadorVeiculo criarValidador(String tipo) {
-        if (tipo.equalsIgnoreCase("carro")) {
-            return new ValidadorCarro();
-        }
-
-        if (tipo.equalsIgnoreCase("moto")) {
-            return new ValidadorMoto();
-        }
-
-        if (tipo.equalsIgnoreCase("caminhao")) {
-            return new ValidadorCaminhao();
-        }
-
-        throw new IllegalArgumentException("Tipo de veiculo nao suportado: " + tipo);
-    }
-
-    private CalculadoraTaxa criarCalculadoraTaxa(String tipo) {
-        if (tipo.equalsIgnoreCase("carro")) {
-            return new CalculadoraTaxaCarro();
-        }
-
-        if (tipo.equalsIgnoreCase("moto")) {
-            return new CalculadoraTaxaMoto();
-        }
-
-        if (tipo.equalsIgnoreCase("caminhao")) {
-            return new CalculadoraTaxaCaminhao();
-        }
-
-        throw new IllegalArgumentException("Tipo de veiculo nao suportado: " + tipo);
     }
 
     private int lerInteiro(String mensagem) {
