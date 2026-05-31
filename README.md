@@ -30,6 +30,76 @@ As factories concretas criam famílias coerentes:
 - `MotoFactory`: cria `Moto`, `ValidadorMoto` e `CalculadoraTaxaMoto`;
 - `CaminhaoFactory`: cria `Caminhao`, `ValidadorCaminhao` e `CalculadoraTaxaCaminhao`.
 
+```mermaid
+classDiagram
+    class VeiculoFactory {
+        <<interface>>
+        +criarVeiculo(dados) Veiculo
+        +criarValidador() ValidadorVeiculo
+        +criarCalculadoraTaxa() CalculadoraTaxa
+    }
+
+    class CarroFactory
+    class MotoFactory
+    class CaminhaoFactory
+
+    VeiculoFactory <|.. CarroFactory
+    VeiculoFactory <|.. MotoFactory
+    VeiculoFactory <|.. CaminhaoFactory
+
+    class Veiculo {
+        <<abstract>>
+        +getTipo() String
+        +resumo() String
+    }
+
+    class Carro
+    class Moto
+    class Caminhao
+
+    Veiculo <|-- Carro
+    Veiculo <|-- Moto
+    Veiculo <|-- Caminhao
+
+    class ValidadorVeiculo {
+        <<interface>>
+        +validar(dados) void
+    }
+
+    class ValidadorCarro
+    class ValidadorMoto
+    class ValidadorCaminhao
+
+    ValidadorVeiculo <|.. ValidadorCarro
+    ValidadorVeiculo <|.. ValidadorMoto
+    ValidadorVeiculo <|.. ValidadorCaminhao
+
+    class CalculadoraTaxa {
+        <<interface>>
+        +calcular(veiculo) BigDecimal
+    }
+
+    class CalculadoraTaxaCarro
+    class CalculadoraTaxaMoto
+    class CalculadoraTaxaCaminhao
+
+    CalculadoraTaxa <|.. CalculadoraTaxaCarro
+    CalculadoraTaxa <|.. CalculadoraTaxaMoto
+    CalculadoraTaxa <|.. CalculadoraTaxaCaminhao
+
+    CarroFactory ..> Carro : cria
+    CarroFactory ..> ValidadorCarro : cria
+    CarroFactory ..> CalculadoraTaxaCarro : cria
+
+    MotoFactory ..> Moto : cria
+    MotoFactory ..> ValidadorMoto : cria
+    MotoFactory ..> CalculadoraTaxaMoto : cria
+
+    CaminhaoFactory ..> Caminhao : cria
+    CaminhaoFactory ..> ValidadorCaminhao : cria
+    CaminhaoFactory ..> CalculadoraTaxaCaminhao : cria
+```
+
 Assim, a aplicação principal passa a depender da abstração `VeiculoFactory`, e não das classes concretas de cada tipo de veículo.
 
 ## Evolução com reflexão e anotações
