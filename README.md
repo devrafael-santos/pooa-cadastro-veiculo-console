@@ -1,8 +1,17 @@
 # Cadastro de Veículos Console
 
-Projeto Java simples em terminal para demonstrar a evolução de uma solução inicial acoplada para uma solução usando o padrão GoF Abstract Factory.
+Equipe: 
+Rafael Costa;
+Maria Eduarda França;
+Yasmin Planzo.
+
+Turma: POOA | ESW-NOT-PIT-4S-T1
+
+ usando o design pattern Abstract Factory.
 
 ## Problema
+
+O projeto é um sistema de cadastro de veículo.
 
 O sistema precisa cadastrar diferentes tipos de veículos: carro, moto e caminhão. Cada tipo possui uma família de objetos relacionada:
 
@@ -29,6 +38,10 @@ As factories concretas criam famílias coerentes:
 - `CarroFactory`: cria `Carro`, `ValidadorCarro` e `CalculadoraTaxaCarro`;
 - `MotoFactory`: cria `Moto`, `ValidadorMoto` e `CalculadoraTaxaMoto`;
 - `CaminhaoFactory`: cria `Caminhao`, `ValidadorCaminhao` e `CalculadoraTaxaCaminhao`.
+
+Assim, a aplicação principal passa a depender da abstração `VeiculoFactory`, e não das classes concretas de cada tipo de veículo.
+
+## UML 
 
 ```mermaid
 classDiagram
@@ -145,8 +158,6 @@ classDiagram
     CaminhaoFactory ..> ValidadorCaminhao : cria
     CaminhaoFactory ..> CalculadoraTaxaCaminhao : cria
 ```
-
-Assim, a aplicação principal passa a depender da abstração `VeiculoFactory`, e não das classes concretas de cada tipo de veículo.
 
 ## Evolução com reflexão e anotações
 
