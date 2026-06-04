@@ -169,3 +169,13 @@ String placa
 ```
 
 O `ValidadorAnotacoes` usa reflexão para ler essas anotações em tempo de execução e aplicar regras genéricas, como campo obrigatório e formato de placa. Com isso, os validadores específicos de carro, moto e caminhão não precisam conhecer manualmente todos os campos básicos do cadastro.
+
+## Execução
+
+Primeiro, faça o clone do repositório:
+
+```console
+git clone https://github.com/devrafael-santos/pooa-cadastro-veiculo-console.git
+```
+
+Depois é só executar o código da classe `Main.java` pela IDE.
