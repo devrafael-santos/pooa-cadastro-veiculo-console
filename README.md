@@ -1,13 +1,12 @@
 # Cadastro de Veículos Console
+Turma: POOA | ESW-NOT-PIT-4S-T1
 
 Equipe: 
 Rafael Costa;
 Maria Eduarda França;
 Yasmin Planzo.
 
-Turma: POOA | ESW-NOT-PIT-4S-T1
-
- usando o design pattern Abstract Factory.
+Design pattern: Abstract Factory.
 
 ## Problema
 
